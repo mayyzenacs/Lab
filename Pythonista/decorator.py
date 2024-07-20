@@ -13,5 +13,4 @@ def soma_decimal(number=10):
         sleep(2)
         print(num)
 
-
 soma_decimal()
