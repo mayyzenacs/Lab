@@ -1,13 +1,20 @@
-vagas = [
-    ["vaga 1", 2900],
-    ["vaga 2", 1200],
-    ["vaga 3", 5000]
-]
+from abc import ABC, abstractmethod
 
-def compara_salario(vagas):
-    if vagas[1] >= 2500:
-        return True
-    else:
-        return False
-    
-print(list(filter(compara_salario, vagas)))
+class monitor(ABC):
+    @abstractmethod
+    def aumentar_claridade(self, nivel):
+        pass
+
+    def diminuir_claridade(self, nivel):
+        pass
+
+
+class monitor_full_hd(monitor):
+    def aumentar_claridade(nivel):
+        print(f"aumentado o brilho em {nivel}")
+
+    def diminuir_claridade(nivel):
+        print(f"diminuindo o brilho em {nivel}")
+
+monitor_full_hd.aumentar_claridade(5)
+monitor_full_hd.diminuir_claridade(6)
