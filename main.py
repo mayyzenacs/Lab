@@ -5,9 +5,9 @@ server = HTTPServer(("localhost", 8000), BaseHTTPRequestHandler)
 class SimpleHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
-        self.send_header("Content-Type", "text/html; chrset=utf-8")
+        self.send_header("Content-Type", "text/html; charset=utf-8")
         self.end_headers()
-        data = f""""
+        data = f"""
         <html>
             <head>
                 <title>Olá, mundo!</title>
