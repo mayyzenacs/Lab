@@ -21,3 +21,5 @@ class SimpleHandler(BaseHTTPRequestHandler):
         
 server = HTTPServer(("localhost",8000), SimpleHandler)
 server.serve_forever()
+
+#teste
