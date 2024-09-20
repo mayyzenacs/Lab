@@ -1,31 +1,36 @@
-#este programa tem como objetivo calcular a média de notas que forem inseridas pelo úsuario
-
-# Implentação da função que fará o cálculo
-def calcula_media(notas): #a função recebe a lista notas a partir do parâmetro notas
-    soma = 0 #defini a  variável soma como - que vai receber cada nota no loop for
-    for nota in notas: #loop que percorre toda a lista notas
-        soma += nota #soma cada nota inserindo essa soma dentro da variável soma
-    media = soma / len(notas) #utiliza o valor da variável soma para dividir pelo tamanho da lista notas, assim obtendo a média
-    if media >= 7: #checa se média é maior ou igual a 7
-        return f"{media:.2f} SITUAÇÃO: Aluno APROVADO" #retorna a media e a situação
-    else: #caso não seja maior ou igual a 7 cai nessa condição
-        return f"{media:.2f} SITUAÇÃO: Aluno REPROVADO"
 
 
-notas = [] #defini a lista notas 
+#definindo a classe principal e seus atributos
+class Livro():
+    def __init__(self, titulo, autor, gênero, estoque): 
+        self.titulo = titulo
+        self.autor = autor
+        self.gênero = gênero
+        self.estoque = estoque
+        self.acervo = {} #definindo a lista vazia que receberá os livros que já existem
+        self.novoAcervo = [] #definindo a lista que recebe os novos livros
+    
+    #Função para cadastrar novos livros
+    def Cadastro(self, livro, autor, gênero, estoque):
+        livro_novo = Livro(livro, autor, gênero, estoque)
+        self.novoAcervo.append(livro_novo)
 
-print("Bem vindo ao programa de calculo de média") #print introdutorio 
+    #Função para listar todos os livros
+    def __str__(self):
+        return f"Os livros são {self.titulo}"
+        
+    #Função para realizar a busca dos livros
+    def Busca(self, livro):
+        pass
 
-while True:  #while true para checar informações e receber várias notas
-    confirm = int(input("Digite 1 para continuar e 0 para sair: ")) #habilita a possibilidade de receber N notas
+    #Função para gerar o gráfico com as informações 
+    def Gerar_Gráfico(self, dados):
+        pass    
 
-    if confirm == 1: #checa se o úsuario gostaria de continuar ou não
-        notas.append(float(input("Digite uma nota: "))) #recebe a nota e a adiciona dentro da lista, recebe um tipo de dado float
-    elif confirm == 0:
-        print("Programa encerrado")
-        print(40*"~=")
-        #neste bloco encerra o programa e resolve o restante, apresenta as notas que foram inseridas
-        #E chama a função mandando para ela as notas que estão dentro da lista
-        print(f"As notas inseridas foram {notas} e a média foi: {calcula_media(notas)}")
-        print(40*"~=") 
-        break #interrompe o loop ao ser digitado 0
+
+livro1 = Livro("O Chamado de Cthulhu", "Lovecraft", "Terror Cósmico", 1)
+livro2 = Livro("Sussurros na Escuridão", "Lovecraft", "Terror Cósmico", 5)
+livro3 = Livro("Tudo que Destruimos", "Mayra", "Drama", 12)
+adicionar_Livro = livro1.Cadastro("O Pequeno Principe", "Antoine de Saint-Exupéry", "Fábula", 100)
+adicionar_Livro2 = livro1.Cadastro("A Culpa é das Estrelas", "John Green", "Romance", 50)
+print(livro1)
