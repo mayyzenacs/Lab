@@ -25,9 +25,9 @@ def Busca(titulo):
             print()
             print(f"--> livro {livro.titulo} ENCONTRADO! \n --> ESTOQUE: {livro.estoque}")
             return livro
-        else:
-            print()
-            print("livro não encontrado")
+    else:
+        print()
+        print("livro não encontrado")
 
 #Função para cadastrar novos livros
 def Cadastro(titulo, autor, gênero, estoque):
@@ -40,6 +40,19 @@ def listarAcervo():
     for livro in acervo:
         print("==========")
         print(livro)
+
+#Função que faz a lógica que busca os gêneros dos livros
+def instancias():
+    generos = [] #lista vazia para pegar os gêneros
+    quantidade = [] #lista vazia para pegar a quantidade por gênero 
+    for instancia in acervo: #itera sobre as instancias dentro de acervo
+        if instancia.gênero in generos: #verifica se aquele genero já foi inserido antes
+            pos = generos.index(instancia.gênero) #pega a posição do genero dentro da lista
+            quantidade[pos] += 1 #acrescenta +1 na posição encontrada acima
+        else:
+            generos.append(instancia.gênero)# se o gênero não foi inserido ainda, ele insere
+            quantidade.append(1) #torna 1 na quantidade
+    return generos, quantidade  
 
 print("=======================================================")
 print("===================BIBLIOTECA ONLINE===================")
@@ -73,11 +86,15 @@ while True:
     elif entrada == 3:
         Busca(input("Digite o titulo do livro: ")) #recebe o nome do livro a buscar e manda para função de busca     
     elif entrada == 4:
-      generos = []
-      for instancia in acervo:
-          generos(instancia.gênero)
-          cont = generos.count(instancia.gênero)
-      plt.bar(generos, cont, color="blue")
+      #cria o gráfico utilizando as informações da função instancias
+      generos, contagem = instancias()
+      plt.bar(generos, contagem, color="pink")
+      plt.xlabel("Gêneros")
+      plt.ylabel("Quantidade")
+      plt.title("GRÁFICO DE QUANTIDADE DE LIVROS POR GÊNERO")
+      plt.show()
+
+      #plt.bar(generos, color="blue")
       plt.xlabel("Gêneros")
       plt.ylabel("Quantidade")
       plt.title("Livros por gênero")
@@ -85,6 +102,8 @@ while True:
         print()
         print("Programa Encerrado!")
         print("====================")
+        
         break
+
 
 
