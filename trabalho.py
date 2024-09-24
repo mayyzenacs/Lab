@@ -1,7 +1,11 @@
+#importando os modulos necessários
 import sqlite3
+import pandas as pd
 
+#criando a conexão com o banco de dados
 conexao = sqlite3.connect("dados_vendas.db")
 
+#definindo o ponteiro 
 cursor = conexao.cursor()
 
 # Passo 1.3: Criar uma tabela (se não existir)
@@ -33,8 +37,19 @@ INSERT INTO vendas1 (data_venda, produto, categoria, valor_venda) VALUES
 ('2023-12-20', 'Produto N', 'Livros', 250.00);
 ''')
 
+#extraindo os dados da tabela
+busca = "SELECT * FROM vendas1"
+cursor.execute(busca)
+
+resultado = cursor.fetchall()
+#for row in resultado:
+ #   print(row)
+
 
 entrada = ""
+def inserir_dados(cursor, data_venda, produto, categoria, valor_venda):
+    cursor.execute("INSERT INTO vendas1 (data_venda, produto, categoria, valor_venda) VALUES (?, ?, ?, ?)", (data_venda, produto, categoria, valor_venda))
+
 while entrada != 0:
     print("__________MENU__________")
     print("""
@@ -47,21 +62,23 @@ while entrada != 0:
     entrada = int(input("Digite uma opção -> "))
     try:
         if entrada == 1:
-            data_venda = input("Data de venda: ")
+            print("Adicione novos produtos ao banco de dados")
+            data_venda = int(input("Data de venda: "))
             produto = input("Nome do produto: ")
             categoria = input("Categoria: ")
-            valor_venda = input("Valor de carteira: ")
-            cursor.execute("INSERT INTO vendas1 (data_venda, produto, categoria, valor_venda) VALUES (?, ?, ?)", (data_venda, produto, categoria, valor_venda))
+            valor_venda = float(input("Valor de carteira: "))
+            inserir_dados(cursor, data_venda, produto, categoria, valor_venda)
         elif entrada == 2:
             pass
         elif entrada == 3:
-            pass
+            df = pd.read_sql_query(busca, conexao)
+            print(df.describe())
         elif entrada == 4:
             pass
     finally:
         conexao.commit()
         print("Programa encerrado")
-        
+
 
 
 conexao.close()
