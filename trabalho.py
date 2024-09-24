@@ -1,6 +1,7 @@
 #importando os modulos necessários
 import sqlite3
 import pandas as pd
+from time import sleep
 
 #criando a conexão com o banco de dados
 conexao = sqlite3.connect("dados_vendas.db")
@@ -45,10 +46,19 @@ resultado = cursor.fetchall()
 #for row in resultado:
  #   print(row)
 
+df = pd.read_sql_query(busca, conexao)
 
 entrada = ""
 def inserir_dados(cursor, data_venda, produto, categoria, valor_venda):
     cursor.execute("INSERT INTO vendas1 (data_venda, produto, categoria, valor_venda) VALUES (?, ?, ?, ?)", (data_venda, produto, categoria, valor_venda))
+    conexao.commit()
+
+def calcular_media():
+    media = df["valor_venda"].mean()
+    return f"A média dos valores de venda desses produtos é: ${media}"
+
+def porcentagem_coluna():
+    pass
 
 while entrada != 0:
     print("__________MENU__________")
@@ -69,10 +79,15 @@ while entrada != 0:
             valor_venda = float(input("Valor de carteira: "))
             inserir_dados(cursor, data_venda, produto, categoria, valor_venda)
         elif entrada == 2:
-            pass
+            print(calcular_media())
         elif entrada == 3:
-            df = pd.read_sql_query(busca, conexao)
-            print(df.describe())
+            print("Determinando situação...")
+            sleep(5)
+            print("Aqui está seu relátorio da situação")
+            print(f"No banco de dados há o total de {df["produto"].count()} produtos, sendo a média total do valor ${df['valor_venda'].mean()}")
+            
+
+            
         elif entrada == 4:
             pass
     finally:
