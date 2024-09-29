@@ -46,7 +46,6 @@ cursor.execute(busca)
 
 #pega os dados para visualização
 resultado = cursor.fetchall()
-#utilizei o codigo comentado abaixo para visualizar a tabela
 #for row in resultado:
  #   print(row)
 
