@@ -1,8 +1,37 @@
 from flask import Flask, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'FOSW3$2dIO98%W'
+app.config['SQLALCHEMY_DATABASE_URL'] = 'sqlite:///musicas.db'
+
+db = SQLAlchemy(app)
+db:SQLAlchemy
+
+class Musicas(db.Model):
+    __tablename__ = 'musicas'
+    id_musica = db.Column(db.Integer, primary_key = True)
+    nome = db.Column(db.String)
+    id_autor = db.Column(db.Integer, db.ForeignKey('autor.id_autor'))
+
+class Autor(db.Model):
+    __tablename__ = 'autor'
+    id_autor = db.Column(db.Integer, primary_key = True)
+    nome = db.Column(db.String)
+    email = db.Column(db.String)
+    senha = db.Column(db.String)
+    admin = db.Column(db.Boolean)
+    musicas = db.relationship('musicas')
+
+db.drop_all()
+
+
+
+
+
+
 musicas = [
-    {
+    {   
         "titulo": "goodbye",
         "autor": "arezra",
         'genero': 'house'
@@ -19,19 +48,19 @@ musicas = [
     },
 ]
 
-@app.route('/')
+@app.route('/musica', methods=['GET'])
 def push():
     return jsonify(musicas)
 
 @app.route('/musica/<int:index>', methods=['GET'])
 def obter_musicas(index):
-    return jsonify(musicas[index], 200)
+    return jsonify(musicas[index]), 200
 
 @app.route('/musica', methods=['POST'])
 def inserir_musica():
     musica = request.get_json()
     musicas.append(musica)
-    return jsonify(musica,200)
+    return jsonify(musica), 201
 
 @app.route('/musica/<int:index>', methods=['PUT'])
 def alterar_musica(index):
@@ -41,11 +70,12 @@ def alterar_musica(index):
 
 @app.route('/musica/<int:index>', methods=['DELETE'])
 def deletar_musica(index):
-    if musicas[index] is not None:
+    try:
         del musicas[index]
-        return jsonify(f'deletado com sucesso', 200)
-    return jsonify('ocorreu um problema nao existe essa musica', 404)
+        return jsonify(f'deletado com sucesso'), 200
+    except:
+        return jsonify('ocorreu um problema nao existe essa musica'), 404
 
     
-
-app.run(port=5000,host='localhost',debug=True)
+if __name__ == '__main__':
+    app.run(port=5000,host='localhost',debug=True)
