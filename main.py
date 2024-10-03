@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'FOSW3$2dIO98%W'
-app.config['SQLALCHEMY_DATABASE_URL'] = 'sqlite:///musicas.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///musicas.db'
 
 db = SQLAlchemy(app)
 db:SQLAlchemy
@@ -24,6 +24,8 @@ class Autor(db.Model):
     musicas = db.relationship('musicas')
 
 db.drop_all()
+db.create_all()
+autor = Autor(nome='AREZRA',email='arezra@gmail.com',senha='1234', admin=True)
 
 
 
