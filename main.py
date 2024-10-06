@@ -28,10 +28,6 @@ db.create_all()
 autor = Autor(nome='AREZRA',email='arezra@gmail.com',senha='1234', admin=True)
 
 
-
-
-
-
 musicas = [
     {   
         "titulo": "goodbye",
