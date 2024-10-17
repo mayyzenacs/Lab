@@ -6,4 +6,3 @@ print(lista)
 
 lista_base = ['vermelho', 'azul', 'verde', 'amarelo', 'rosa', 'preto']
 print([str(lista_base.index(i)+1)+ '-' + i for i in lista_base])
-#a
