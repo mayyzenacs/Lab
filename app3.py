@@ -1,8 +1,9 @@
-# list [2, 4, 6, 8, 10]
 
-lista = [i for i in range(1,11) if i % 2]                                
-print(lista)
+import random
+sorteios = ['sorteio 1', 'sorteio 2', 'sorteio 3']
+participantes = ['lucas', 'ana', 'felipe', 'carol', 'mayra','kevin','carlos']
 
+ganhador = {sorteio: random.choice(participantes)
+for sorteio in sorteios}
 
-lista_base = ['vermelho', 'azul', 'verde', 'amarelo', 'rosa', 'preto']
-print([str(lista_base.index(i)+1)+ '-' + i for i in lista_base])
+print(ganhador)
