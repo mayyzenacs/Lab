@@ -12,5 +12,5 @@ def extraindo_dados():
 dados = ['celular','monitor', 'fone de ouvido', 'alto falante', 'computador']
 
 threads = []
-for t in threads:
+for t in dados:
     new_thread = threading.Thread(target=entrando_site, args=(site,), daemon=True)
