@@ -17,3 +17,4 @@ new_thread = threading.Thread(
 new_thread.start()
 baixando_fotos()
 new_thread.join()
+#new
