@@ -11,6 +11,5 @@ def index():
 def listar_eventos():
     return 'abc'
 
-
 if __name__ == "__name__":
     app.run()
