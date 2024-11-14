@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http.response import HttpResponse
-from django.template import loader
 
 from agenda.models import eventos
 
@@ -10,6 +9,4 @@ def index(request):
 
 def exibir_evento(request):
     evento = eventos[0]
-    template = loader.get_template('agenda\templates\exibir_evento.html')
-    rendered_template = template.render(context= {evento: evento}, request=request)
-    return HttpResponse(rendered_template)
+    return render(request=request,context={'evento': evento}, template_name='evento_web.html')
