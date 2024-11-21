@@ -9,4 +9,4 @@ def index(request):
 
 def exibir_evento(request):
     evento = eventos[0]
-    return render(request=request,context={'evento': evento}, template_name='evento_web.html')
+    return render(request=request,context={'evento': evento}, template_name='agenda\evento_web.html')
