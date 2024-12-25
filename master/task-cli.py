@@ -13,8 +13,6 @@ class App:
     def run(self, command_name, *args):
         if command_name in self.commands:
             self.commands[command_name](*args)
-        else:
-            print(f"Comando '{command_name}' não encontrado.")
 
 
 app = App()
