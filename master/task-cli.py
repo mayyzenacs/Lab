@@ -124,7 +124,6 @@ def main():
             print("Invalid number")
             continue
 
-main()
 
 if __name__ == "__main__":
     main()
