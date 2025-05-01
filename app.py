@@ -70,5 +70,5 @@ print(pedido3.calcular_total())
 
 
 
-print("teste")
+print("test")
 
