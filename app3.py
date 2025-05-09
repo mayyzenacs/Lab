@@ -8,3 +8,6 @@ ana = anabanana(input("Digite um argumento"))
 
 print(ana)
 
+def anabanana(args):
+    return args
+
