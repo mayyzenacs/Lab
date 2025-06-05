@@ -41,3 +41,16 @@ function boaMadrugada(name) {
 boaMadrugada("mayra");
 
 console.log(cars(200));
+
+var person = {
+  name: "Lucas",
+  age: 24,
+};
+
+function checkAge(idade) {
+  if (idade > 18) {
+    return console.log(18 - person.age);
+  }
+}
+
+checkAge(person.age);
