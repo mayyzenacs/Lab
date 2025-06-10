@@ -54,3 +54,10 @@ function checkAge(idade) {
 }
 
 checkAge(person.age);
+
+var objeto = {
+  name: "mayra",
+  greet() {
+    console.log(this);
+  },
+};
