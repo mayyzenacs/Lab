@@ -61,3 +61,5 @@ var objeto = {
     console.log(this);
   },
 };
+
+// isso é um comentário
