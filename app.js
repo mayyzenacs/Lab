@@ -63,3 +63,12 @@ var objeto = {
 };
 
 // isso é um comentário
+
+function contagem() {
+  console.log("contagem iniciada");
+  setTimeout(function () {
+    console.log("area limpa");
+  }, 5000);
+}
+
+contagem();
