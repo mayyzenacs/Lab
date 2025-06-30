@@ -20,3 +20,5 @@ for t in dados:
 new_thread.start()
 extraindo_dados()
 new_thread.join()
+
+print('hello world')
