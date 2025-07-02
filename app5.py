@@ -22,3 +22,4 @@ extraindo_dados()
 new_thread.join()
 
 print('hello world')
+print('ola mundo')
