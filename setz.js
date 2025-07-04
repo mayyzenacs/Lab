@@ -4,8 +4,8 @@ const vogais = ["a", "e", "i", "o", "u"];
 
 const temvogal = [];
 
-for (let i = 0; i < vogais.length; i++) {
-  if (vogais[i] === word[i]) {
+for (let i = 0; i < word.length; i++) {
+  if (vogais.find((element) => element === word[i])) {
     temvogal.push(word[i]);
   }
 }
