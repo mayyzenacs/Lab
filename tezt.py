@@ -18,5 +18,5 @@ resultado = calculo(5, 6, '*')
 print(resultado)
 
 def test():
-    assert calculo(5,6, '*') == 30
+    assert calculo(2,6, '*') == 12
 
