@@ -7,3 +7,7 @@ function reverter(word) {
 }
 
 reverter("sabonete");
+
+function reverse (word) {
+  var stringreversa
+}
