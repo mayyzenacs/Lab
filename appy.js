@@ -21,7 +21,3 @@ const carro1 = new Carro('fiat', 'uno', 2005)
 
 console.log(carro1.modelo)
 console.log(carro1.gasolina(1))
-
-const sapato = { 
-    marca: ''
-}
