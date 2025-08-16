@@ -20,5 +20,5 @@ print(resultado)
 def test():
     assert calculo(2,6, '*') == 12
 
-
+def
 
