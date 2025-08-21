@@ -1,23 +1,9 @@
-const carro = {
-    marca: 'toyota',
-    modelo: 'yaris',
-    ano: 2019
-}
-
-class Carro{
-    constructor(marca, modelo, ano) {
-        this.marca = marca
-        this.modelo = modelo
-        this.ano = ano
-    }
-    gasolina(empty) {
-        if (empty) {
-            return "vazio"
-        }
+class Clientes{
+    constructor(nome, idade, estado) {
+        this.nome = nome, 
+        this.idade = idade,
+        this.estado = estado
     }
 }
 
-const carro1 = new Carro('fiat', 'uno', 2005)
-
-console.log(carro1.modelo)
-console.log(carro1.gasolina(1))
+const cliente = New Clientes('lucas')
