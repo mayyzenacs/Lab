@@ -1,16 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Desafio 1: Filtro de Lista</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+        }
+
+        .container {
+            width: 400px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #itemList {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        #itemList li {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        #itemList li:last-child {
+            border-bottom: none;
+        }
+    </style>
 </head>
 
 <body>
-    <h1> Calculadora Comercial</h1>
-    <form> </form>
 
+    <div class="container">
+        <h1>Lista de Linguagens</h1>
+        <input type="text" id="searchInput" placeholder="Digite para filtrar...">
+
+        <ul id="itemList">
+            <li>Javascript</li>
+            <li>Java</li>
+            <li>Python</li>
+            <li>C#</li>
+            <li>Ruby</li>
+            <li>Go</li>
+            <li>TypeScript</li>
+        </ul>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
