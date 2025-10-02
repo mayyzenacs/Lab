@@ -1,8 +1,10 @@
-function mesa (array) {
-    const args = Array.from(array)
-    args.forEach(element => {
-        console.log('hello'+ args)
-    });
+
+const mesa = ["Ticket to ride", "Lhama", "Mansions of madness"]
+
+function games () {
+    mesa.forEach((index, fruit) => {
+        console.log(inde)
+    }) 
 }
 
-mesa('ticket to ride', 'clank', 'arkham horror')
+games()
