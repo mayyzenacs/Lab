@@ -2,9 +2,9 @@
 const mesa = ["Ticket to ride", "Lhama", "Mansions of madness"]
 
 function games () {
-    mesa.forEach((index, fruit) => {
-        console.log(inde)
-    }) 
+    mesa.map(game => {
+        console.log(game.toUpperCase())
+    })
 }
 
 games()
