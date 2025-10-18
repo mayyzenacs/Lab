@@ -1,146 +1,123 @@
+# Célula 1: Importar bibliotecas
 import numpy as np
 import matplotlib.pyplot as plt
 
-plt.style.use('default')
-plt.rcParams['figure.figsize'] = (10,6)
+# Configurar gráficos para melhor visualização
+plt.style.use('seaborn-v0_8-whitegrid')
+plt.rcParams['figure.figsize'] = (12, 8)
 
-def tempo_rapido(x):
-  # função de pertinência para tempo rápido (0-15 min)
-  if x <= 10:
-    return 1.0
-  elif x <= 20:
-    return (20 - x) / 10
-  else:
-    return 0.0
-def tempo_medio(x):
-  # função de pertinencia para tempo médio (10-30 min)
-  if x <= 10:
-    return 0.0
-  elif x <= 20:
-    return (x-10) / 10
-  elif x <= 30:
-    return (30 - x) / 10
-  else:
-    return 0.0
-def tempo_lento(x):
-  # função de tempo lento (25-60 min)
-  if x <= 25:
-    return 0.0
-  elif x <= 35:
-    return (x - 25) / 10
-  else:
-    return 1.0
+# Célula 2: Definir os dados de treinamento para a função XOR
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y = np.array([[0], [1], [1], [0]])
 
-def cordialidade_baixa(x):
-  if x <= 3:
-    return 1.0
-  elif x <= 5:
-    return (5 - x) / 2
-  else:
-    return 0.0
-def cordialidade_media(x):
-  if x <= 3:
-    return 0.0
-  elif x <= 5:
-    return (x - 3) / 2
-  elif x <= 7:
-    return (7 - x) / 2
-  else:
-    return 0.0
-def cordialidade_alta(x):
-  if x <= 6:
-    return 0.0
-  elif x <= 8:
-    return (x - 6) / 2
-  else:
-    return 1.0
+# Célula 3: Implementar a Rede Neural Simples (COM CORREÇÃO)
+class NeuralNetwork:
+    def __init__(self, input_size, hidden_size, output_size):
+        self.W1 = np.random.randn(input_size, hidden_size) * 0.1
+        self.b1 = np.zeros((1, hidden_size))
+        self.W2 = np.random.randn(hidden_size, output_size) * 0.1
+        self.b2 = np.zeros((1, output_size))
 
-def avaliar_atendimento(tempo, cordialidade):
-  t_rapido = tempo_rapido(tempo)
-  t_medio = tempo_medio(tempo)
-  t_lento = tempo_lento(tempo)
+    def _sigmoid(self, x):
+        return 1 / (1 + np.exp(-x))
 
-  c_baixa = cordialidade_baixa(cordialidade)
-  c_media = cordialidade_media(cordialidade)
-  c_alta = cordialidade_alta(cordialidade)
+    def _sigmoid_derivative(self, x):
+        return x * (1 - x)
 
-  excelente = min(t_rapido, c_baixa)
-  boa = max(min(t_rapido, c_media), min(t_medio, c_alta))
-  regular = min(t_medio, c_media)
-  ruim = max(min(t_lento, c_baixa), min(t_lento, c_media), min(t_lento, c_alta), min(t_rapido, c_baixa), min(t_medio, c_baixa))
+    def feedforward(self, X):
+        self.hidden_sum = np.dot(X, self.W1) + self.b1
+        self.hidden_output = self._sigmoid(self.hidden_sum)
+        self.output_sum = np.dot(self.hidden_output, self.W2) + self.b2
+        self.output = self._sigmoid(self.output_sum)
+        return self.output
 
-  qualidade_final = (excelente * 9 + boa * 7 + regular * 5 + ruim * 2) / max(excelente + boa + regular + ruim, 0.001)
-  return {
-      'excelente': excelente,
-      'boa': boa,
-      'regular': regular,
-      'ruim': ruim,
-      'qualidade_final': qualidade_final
-  }
+    def backpropagate(self, X, y, learning_rate):
+        output_error = y - self.output
+        output_delta = output_error * self._sigmoid_derivative(self.output)
+        
+        hidden_error = output_delta.dot(self.W2.T)
+        hidden_delta = hidden_error * self._sigmoid_derivative(self.hidden_output)
+        
+        self.W2 += self.hidden_output.T.dot(output_delta) * learning_rate
+        self.b2 += np.sum(output_delta, axis=0, keepdims=True) * learning_rate
+        self.W1 += X.T.dot(hidden_delta) * learning_rate
+        self.b1 += np.sum(hidden_delta, axis=0, keepdims=True) * learning_rate
+        
+    # <<< ALTERAÇÃO PRINCIPAL AQUI >>>
+    def train(self, X, y, epochs, learning_rate):
+        """
+        Função de treinamento corrigida para atualizar os pesos a cada exemplo (SGD).
+        """
+        errors = []
+        for epoch in range(epochs):
+            # Itera sobre cada exemplo de treinamento individualmente
+            for i in range(len(X)):
+                # Pega um exemplo de cada vez
+                xi = X[i:i+1]
+                yi = y[i:i+1]
+                
+                # Realiza o feedforward e backpropagation para esse único exemplo
+                self.feedforward(xi)
+                self.backpropagate(xi, yi, learning_rate)
+            
+            # A cada 100 épocas, calcula e armazena o erro médio para o conjunto de dados completo
+            if epoch % 100 == 0:
+                full_output = self.feedforward(X)
+                loss = np.mean(np.square(y - full_output))
+                errors.append(loss)
+        return errors
 
-def testar_sistema():
-  casos_teste = [
-      {"tempo": 8, "cordialidade": 9, "descrição": "Atendimento rápido e muito cordial"}, {"tempo": 15, "cordialidade": 6, "descrição": "Atendimento médio"}, {"tempo": 35, "cordialidade": 3, "descrição": "Atendimento demorado e pouco cordial"}, {"tempo": 12, "cordialidade": 8, "descrição": "Bom atendimento geral"} 
-    ]
+    def predict(self, X):
+        return self.feedforward(X)
 
-  print("===TESTE DO SISTEMA DE LÓGICA NEBULOSA===\n")
+# Célula 4: Treinar a Rede Neural
+print("Iniciando o treinamento da rede neural...")
+nn = NeuralNetwork(input_size=2, hidden_size=2, output_size=1)
+epochs = 10000
+learning_rate = 0.1
+errors = nn.train(X, y, epochs, learning_rate)
+print("Treinamento concluído!")
 
-  for i, caso in enumerate(casos_teste, 1):
-    resultado = avaliar_atendimento(caso['tempo'], caso['cordialidade'])
-    print(f"Caso {i} : {caso['descrição']}")
-    print(f"Tempo de espera: {caso['tempo']} minutos")
-    print(f"Cordialidade: {caso['cordialidade']}/10")
-    print("Graus de pertinência:")
-    print(f"Excelente: {resultado['excelente']}")
-    print(f"Boa: {resultado['boa']}")
-    print(f"Regular: {resultado['regular']}")
-    print(f"Ruim: {resultado['ruim']}")
-    print(f"Qualidade final: {resultado['qualidade_final']}/10\n")
+# Célula 5: Gerar Gráfico do Erro de Treinamento
+plt.figure(figsize=(10, 6))
+plt.plot(errors)
+plt.title('Evolução do Erro Durante o Treinamento (Corrigido)')
+plt.xlabel('Épocas (x100)')
+plt.ylabel('Erro Quadrático Médio')
+plt.grid(True)
+plt.show()
 
-testar_sistema()
+# Célula 6: Análise dos Resultados e Teste
+print("\n=== TESTANDO A REDE NEURAL TREINADA ===\n")
+total_correct = 0
+for i in range(len(X)):
+    prediction = nn.predict(X[i])
+    expected = y[i][0]
+    predicted_class = 1 if prediction > 0.5 else 0
+    is_correct = "CORRETO" if predicted_class == expected else "INCORRETO"
+    if is_correct == "CORRETO":
+        total_correct += 1
+    print(f"Entrada: {X[i]} | Esperado: {expected} | Saída da Rede: {prediction[0][0]:.4f} | Classe: {predicted_class} ({is_correct})")
 
-def plotar_funcoes_pertinencia():
-  tempo_range = np.linspace(0, 60, 100)
-  plt.figure(figsize=(15, 5))
+accuracy = (total_correct / len(X)) * 100
+print(f"\nAcurácia do modelo: {accuracy:.2f}%")
 
-  plt.subplot(1, 3, 1)
-  plt.plot(tempo_range, [tempo_rapido(t) for t in tempo_range], 'g-', label='Rápido', linewidth=2)
-  plt.plot(tempo_range, [tempo_medio(t) for t in tempo_range], 'y-', label='Médio', linewidth=2)
-  plt.plot(tempo_range, [tempo_lento(t) for t in tempo_range], 'r-', label='Lento', linewidth=2)
-  plt.title('Tempo de Espera')
-  plt.xlabel('Minutos')
-  plt.ylabel('Grau de Pertinência')
-  plt.legend()
-  plt.grid(True, alpha=0.3)
 
-  # Cordialidade
-  cord_range = np.linspace(0, 10, 100)
-  plt.subplot(1, 3, 2)
-  plt.plot(cord_range, [cordialidade_baixa(c) for c in cord_range], 'r-.', label='Baixa', linewidth=2)
-  plt.plot(cord_range, [cordialidade_media(c) for c in cord_range], 'y-', label='Média', linewidth=2)
-  plt.plot(cord_range, [cordialidade_alta(c) for c in cord_range], 'g-', label='Alta', linewidth=2)
-  plt.title('Cordialidade')
-  plt.xlabel('Nível')
-  plt.ylabel('Grau de Pertinência')
-  plt.legend()
-  plt.grid(True, alpha=0.3)
-  # Superfície de qualidade
-  plt.subplot(1, 3, 3)
-  T, C = np.meshgrid(np.linspace(0, 60, 30), np.linspace(0, 10, 30))
-  Z = np.zeros_like(T)
+# Célula 7: Visualizar a Superfície de Decisão
+print("\nGerando visualização da superfície de decisão...")
+x_min, x_max = -0.5, 1.5
+y_min, y_max = -0.5, 1.5
+h = 0.01
+xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
+Z = nn.predict(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
 
-  for i in range(T.shape[0]):
-    for j in range(T.shape[1]):
-        resultado = avaliar_atendimento(T[i, j], C[i, j])
-        Z[i, j] = resultado['qualidade_final']
-
-  contour = plt.contourf(T, C, Z, levels=20, cmap='RdYlGn')
-  plt.colorbar(contour)
-  plt.title('Superfície de Qualidade')
-  plt.xlabel('Tempo (min)')
-  plt.ylabel('Cordialidade')
-
-  plt.tight_layout()
-  plt.show()
-
-plotar_funcoes_pertinencia()
+plt.figure(figsize=(10, 8))
+plt.contourf(xx, yy, Z, cmap=plt.cm.RdYlBu, alpha=0.8)
+plt.scatter(X[:, 0], X[:, 1], c=y.ravel(), s=100, edgecolors='k', cmap=plt.cm.RdYlBu)
+plt.title('Superfície de Decisão para o Problema XOR')
+plt.xlabel('Entrada 1')
+plt.ylabel('Entrada 2')
+plt.xlim(xx.min(), xx.max())
+plt.ylim(yy.min(), yy.max())
+plt.show()
