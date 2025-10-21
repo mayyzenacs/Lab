@@ -10,5 +10,7 @@ const mesanote = mesa.reduce((prev, curr) => {
     return prev + curr.nota
 }, 0)
 
+let c = mesa.every(mesas => mesas.nota === 10)
 
-console.log(mesanote)
+
+console.log(c)
