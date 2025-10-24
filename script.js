@@ -1,5 +1,15 @@
-const promise = new Promise(() => {
-    
+const promise = new Promise((resolve, reject) => {
+    const numberID = 256
+
+    if (numberID === 256) {
+        resolve('Correto')
+    } else {
+        reject('Incorreto')
+    }
+})
+
+promise.then((data) => {
+    console.log(data)
 })
 
 
