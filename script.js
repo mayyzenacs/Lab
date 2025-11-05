@@ -1,21 +1,19 @@
-function searchNumber () {
-  return new Promise ((resolve, reject) => {
-    setTimeout(() => {
-      let randomNum = Math.random();
+function resolveNumber(number) {
 
-      if (randomNum > 0.1) {
-        resolve(randomNum)
-      }else {
-        reject(randomNum)
-      }
-    }, 2000)
+  return new Promise((resolve, reject) => {
+    if (number > 2) {
+      resolve(number)
+    } else {
+      reject(number)
+    }
+
   })
+
 }
 
-searchNumber()
-.then(() => {
-  console.log("Deu certo")
+resolveNumber(1).then((resultado) => {
+  console.log(resultado)
 })
-.catch(() => {
-  console.log("Errado")
+.catch((err) => {
+  console.log(err)
 })
