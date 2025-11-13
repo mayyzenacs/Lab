@@ -57,7 +57,7 @@ async function jornadaUsuario() {
 
 jornadaUsuario()
 
-/*/ Chame buscar usuario
+//Chame buscar usuario
 buscarUsuario(1).then(usuario => {
   console.log(usuario.nome)
 
@@ -72,7 +72,7 @@ buscarUsuario(1).then(usuario => {
   console.log(Error)
 })
 
-/* crie sua propria promise 
+//crie sua propria promise 
 function checarTemp(temp) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -90,6 +90,6 @@ checarTemp(30).then(result => {
 }).catch(err => {
   console.log(err)
 }) 
-*/
+
 
 
